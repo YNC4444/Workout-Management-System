@@ -30,6 +30,11 @@ namespace PassionProjectn01681774.Models
         // gateway between our C# and our database
         public DbSet<Exercise> Exercises { get; set; }
 
+        public DbSet<Workout> Workouts { get; set; }
+
+        public DbSet<Muscle> Muscles { get; set; }
+
+        public DbSet<ExerciseXMuscle> ExercisesXMuscles { get; set; }
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

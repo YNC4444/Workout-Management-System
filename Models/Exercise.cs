@@ -18,5 +18,7 @@ namespace PassionProjectn01681774.Models
 
         public string ExerciseDescription { get; set; }
 
+        public int ExerciseWeight { get; set; }
+
     }
 }
