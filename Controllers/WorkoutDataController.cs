@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -18,23 +19,39 @@ namespace PassionProjectn01681774.Controllers
 
         // GET: api/WorkoutData/ListWorkouts
         [HttpGet]
-        public IQueryable<Workout> ListWorkouts()
+        public IEnumerable<WorkoutDto> ListWorkouts()
         {
-            return db.Workouts;
+            List<Workout> Workouts = db.Workouts.ToList();
+            List<WorkoutDto> WorkoutDtos = new List<WorkoutDto>();
+
+            Workouts.ForEach(a => WorkoutDtos.Add(new WorkoutDto()
+            {
+                WorkoutId = a.WorkoutId,
+                muscleId = a.muscleId,
+                WorkoutDate = a.WorkoutDate
+            }));
+
+            return WorkoutDtos;
         }
 
         // GET: api/WorkoutData/FindWorkout/5
         [ResponseType(typeof(Workout))]
         [HttpGet]
-        public IHttpActionResult GetWorkout(int id)
+        public IHttpActionResult FindWorkout(int id)
         {
-            Workout workout = db.Workouts.Find(id);
-            if (workout == null)
+            Workout Workout = db.Workouts.Find(id);
+            WorkoutDto WorkoutDto = new WorkoutDto()
+            {
+                WorkoutId = Workout.WorkoutId,
+                muscleId = Workout.muscleId,
+                WorkoutDate = Workout.WorkoutDate
+            };
+            if (Workout == null)
             {
                 return NotFound();
             }
 
-            return Ok(workout);
+            return Ok(WorkoutDto);
         }
 
         // POST: api/WorkoutData/UpdateWorkout/5
@@ -42,13 +59,21 @@ namespace PassionProjectn01681774.Controllers
         [HttpPost]
         public IHttpActionResult UpdateWorkout(int id, Workout workout)
         {
+            Debug.WriteLine("Reached update workout method");
             if (!ModelState.IsValid)
             {
+                Debug.WriteLine("Model state is invalid");
                 return BadRequest(ModelState);
             }
 
             if (id != workout.WorkoutId)
             {
+                Debug.WriteLine("Id mismatch");
+                Debug.WriteLine("GET parameter" + id);
+                Debug.WriteLine("POST parameter" + workout.WorkoutId);
+                Debug.WriteLine("POST parameter" + workout.WorkoutDate);
+                Debug.WriteLine("POST parameter" + workout.muscleId);
+
                 return BadRequest();
             }
 
@@ -62,6 +87,8 @@ namespace PassionProjectn01681774.Controllers
             {
                 if (!WorkoutExists(id))
                 {
+                    Debug.WriteLine("workout not found");
+
                     return NotFound();
                 }
                 else
@@ -69,7 +96,7 @@ namespace PassionProjectn01681774.Controllers
                     throw;
                 }
             }
-
+            Debug.WriteLine("none of the conditions triggered");
             return StatusCode(HttpStatusCode.NoContent);
         }
 
@@ -103,7 +130,7 @@ namespace PassionProjectn01681774.Controllers
             db.Workouts.Remove(workout);
             db.SaveChanges();
 
-            return Ok(workout);
+            return Ok();
         }
 
         protected override void Dispose(bool disposing)

@@ -10,7 +10,6 @@ namespace PassionProjectn01681774.Models
     public class Exercise
     {
         // describe an exercise
-        // why is my [key] underlined (error)?
         [Key]
 
         public int ExerciseId {  get; set; }

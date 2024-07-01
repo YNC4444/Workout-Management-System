@@ -35,6 +35,8 @@ namespace PassionProjectn01681774.Models
         public DbSet<Muscle> Muscles { get; set; }
 
         public DbSet<ExerciseXMuscle> ExercisesXMuscles { get; set; }
+
+        public DbSet<WorkoutXExercises> WorkoutXExercises { get; set; }
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
