@@ -4,7 +4,12 @@
     ViewBag.Title = "Show";
 }
 
+<a href="/Exercise/List">Go back to list</a>
+
 <h2>@Model.ExerciseName</h2>
 <div>@Model.ExerciseDescription: </div>
 
-<!-- Exercise value is null, doesn't work'-->
+<a href="/Exercise/Edit/@Model.ExerciseId">Edit Exercise</a>
+
+<a href="/Exercise/DeleteConfirm/@Model.ExerciseId">Delete Exercise</a>
+

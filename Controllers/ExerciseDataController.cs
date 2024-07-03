@@ -17,14 +17,36 @@ namespace PassionProjectn01681774.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: api/ExerciseData/ListExercises
+        /// <summary>
+        /// Returns all exercises in the system
+        /// </summary>
+        /// <returns>
+        /// HEADER: 200 (OK)
+        /// CONTENT: all exercises in the database, including the weight they were last performed at
+        /// </returns>
+        /// <example>
+        /// GET: api/ExerciseData/ListExercises
+        /// </example>
         [HttpGet]
         public IQueryable<Exercise> ListExercises()
         {
             return db.Exercises;
         }
 
-        // GET: api/ExerciseData/FindExercise/5
+
+        /// <summary>
+        /// Returns all exercises in the system.
+        /// </summary>
+        /// <returns>
+        /// HEADER: 200 (OK)
+        /// CONTENT: An exercise in the system matching up to the exercise ID primary key
+        /// or
+        /// HEADER: 404 (NOT FOUND)
+        /// </returns>
+        /// <param name="id">The primary key of the exercise</param>
+        /// <example>
+        /// GET: api/ExerciseData/FindExercise/5
+        /// </example>
         [ResponseType(typeof(Exercise))]
         [HttpGet]
         public IHttpActionResult FindExercise(int id)
@@ -40,7 +62,23 @@ namespace PassionProjectn01681774.Controllers
             return Ok(exercise);
         }
 
-        // POST: api/ExerciseData/UpdateExercise/5
+
+        /// <summary>
+        /// Updates a particular exercise in the system with POST Data input
+        /// </summary>
+        /// <param name="id">Represents the Exercise ID primary key</param>
+        /// <param name="exercise">JSON FORM DATA of an exercise</param>
+        /// <returns>
+        /// HEADER: 204 (Success, No Content Response)
+        /// or
+        /// HEADER: 400 (Bad Request)
+        /// or
+        /// HEADER: 404 (Not Found)
+        /// </returns>
+        /// <example>
+        /// POST: api/ExerciseData/UpdateExercise/5
+        /// FORM DATA: Exercise JSON Object
+        /// </example>
         [ResponseType(typeof(void))]
         [HttpPost]
         public IHttpActionResult UpdateExercise(int id, Exercise exercise)
@@ -76,7 +114,21 @@ namespace PassionProjectn01681774.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/ExerciseData/AddExercise
+
+        /// <summary>
+        /// Adds an exercise to the system
+        /// </summary>
+        /// <param name="exercise">JSON FORM DATA of an exercise</param>
+        /// <returns>
+        /// HEADER: 201 (Created)
+        /// CONTENT: Exercise ID, Exercise Data
+        /// or
+        /// HEADER: 400 (Bad Request)
+        /// </returns>
+        /// <example>
+        /// POST: api/ExerciseData/AddExercise
+        /// FORM DATA: Exercise JSON Object
+        /// </example>
         [ResponseType(typeof(Exercise))]
         [HttpPost]
         public IHttpActionResult AddExercise(Exercise exercise)
@@ -92,7 +144,19 @@ namespace PassionProjectn01681774.Controllers
             return CreatedAtRoute("DefaultApi", new { id = exercise.ExerciseId }, exercise);
         }
 
-        // POST: api/ExerciseData/DeleteExercise/5
+        /// <summary>
+        /// Deletes an exercise from the system by it's ID.
+        /// </summary>
+        /// <param name="id">The primary key of the exercise</param>
+        /// <returns>
+        /// HEADER: 200 (OK)
+        /// or
+        /// HEADER: 404 (NOT FOUND)
+        /// </returns>
+        /// <example>
+        /// POST: api/ExerciseData/DeleteExercise/5
+        /// FORM DATA: (empty)
+        /// </example>
         [ResponseType(typeof(Exercise))]
         [HttpPost]  
         public IHttpActionResult DeleteExercise(int id)
@@ -106,7 +170,7 @@ namespace PassionProjectn01681774.Controllers
             db.Exercises.Remove(exercise);
             db.SaveChanges();
 
-            return Ok(exercise);
+            return Ok(exercise); //deleted exercise parameter
         }
 
         protected override void Dispose(bool disposing)

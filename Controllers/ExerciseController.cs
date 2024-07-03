@@ -1,37 +1,205 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
 using PassionProjectn01681774.Models;
+using System.Web.Script.Serialization;
 
 namespace PassionProjectn01681774.Controllers
 {
     public class ExerciseController : Controller
     {
+        private static readonly HttpClient client;
+        private JavaScriptSerializer jss = new JavaScriptSerializer();
+
+        static ExerciseController()
+        {
+            client = new HttpClient();
+            client.BaseAddress = new Uri("https://localhost:44384/api/ExerciseData/");
+        }
+
         // GET: Exercise/List
         public ActionResult List()
-        {   
-            HttpClient client = new HttpClient();
-            string url = "https://localhost:44384/api/ExerciseData/ListExercises";
+        {
+            // objective: communicate with our exercise data api to retrieve a list of exercises
+            // curl https://localhost:44384/api/ExerciseData/ListExercises
 
+            string url = "ListExercises";
             HttpResponseMessage response = client.GetAsync(url).Result;
 
+            //Debug.WriteLine("The response code is ");
+            //Debug.WriteLine(response.StatusCode);
+
             IEnumerable<Exercise> Exercises = response.Content.ReadAsAsync<IEnumerable<Exercise>>().Result;
+            //Debug.WriteLine("Number of exercises received : ");
+            //Debug.WriteLine(Exercises.Count());
+
             return View(Exercises);
         }
 
         // GET: Exercise/Show/{id}
         public ActionResult Show(int id)
         {
-            HttpClient client = new HttpClient();
-            string url = "https://localhost:44384/api/ExerciseData/FindExercises/"+id;
+            // objective: communicate with our exercise data api to retrieve a list of exercises
+            // curl https://localhost:44384/api/ExerciseData/FindExercise/{id}
 
+
+            string url = "FindExercise/"+id;
             HttpResponseMessage response = client.GetAsync(url).Result;
 
+            //Debug.WriteLine("The response code is ");
+            //Debug.WriteLine(response.StatusCode);
+
             Exercise Exercise = response.Content.ReadAsAsync<Exercise>().Result;
+            //Debug.WriteLine("exercise received: ");
+            //Debug.WriteLine(Exercise.ExerciseName);
+
             return View(Exercise);
         }
+
+        public ActionResult Error()
+        {
+            return View();
+        }
+
+        // POST: Exercise/Create
+        [HttpPost]
+        public ActionResult Create(Exercise exercise)
+        {
+            Debug.WriteLine("the json payload is: ");
+
+            //objective: add a new exercise into our system using the API
+            //curl -H "Content-Type:application/json" -d @exercise.json https://localhost:44384/api/ExerciseData/AddExercise 
+            string url = "AddExercise";
+
+            string jsonpayload = jss.Serialize(exercise);
+
+            Debug.WriteLine(jsonpayload);
+
+            HttpContent content = new StringContent(jsonpayload);
+            content.Headers.ContentType.MediaType = "application/json";
+
+            HttpResponseMessage response = client.PostAsync(url, content).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("List");
+            }
+            else
+            {
+                return RedirectToAction("Error");
+            }
+        }
+
+        // GET: Exercise/Edit/5
+        public ActionResult Edit(int id)
+        {
+            //grab the exercise information
+
+            //objective: communicate with our exercise data api to retrieve one exercise
+            //curl https://localhost:44384/api/ExerciseData/FindExercise/{id}
+
+            string url = "FindExercise/" + id;
+            HttpResponseMessage response = client.GetAsync(url).Result;
+
+            //Debug.WriteLine("The response code is ");
+            //Debug.WriteLine(response.StatusCode);
+
+            Exercise Exercise = response.Content.ReadAsAsync<Exercise>().Result;
+            //Debug.WriteLine("exercise received : ");
+            //Debug.WriteLine(selectedexercise.ExerciseName);
+
+            return View(Exercise);
+        }
+
+        [HttpPost]
+        public ActionResult Update(int id, Exercise exercise)
+        {
+            try
+            {
+                Debug.WriteLine("The new exercise info is:");
+                Debug.WriteLine(exercise.ExerciseName);
+                Debug.WriteLine(exercise.ExerciseDescription);
+                Debug.WriteLine(exercise.ExerciseWeight);
+
+                //serialize into JSON
+                //Send the request to the API
+
+                string url = "UpdateExercise/" + id;
+
+                string jsonpayload = jss.Serialize(exercise);
+                Debug.WriteLine(jsonpayload);
+
+                HttpContent content = new StringContent(jsonpayload);
+                content.Headers.ContentType.MediaType = "application/json";
+
+                //POST: api/ExerciseData/UpdateExercise/{id}
+                //Header : Content-Type: application/json
+                HttpResponseMessage response = client.PostAsync(url, content).Result;
+
+                return RedirectToAction("Show/" + id);
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: Animal/Delete/5
+        //public ActionResult Delete(int id)
+        //{
+        //    return View();
+        //}
+
+        // POST: Animal/Delete/5
+        [HttpPost]
+        public ActionResult DeleteConfirm(int id)
+        {
+            try
+            {
+                // TODO: Add delete logic here
+                string url = "DeleteExercise/" + id;
+                HttpContent content = new StringContent("");
+
+                client.PostAsync(url, content);
+
+                return RedirectToAction("List");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        //// GET: Exercise/Delete/5
+        //public ActionResult DeleteConfirm(int id)
+        //{
+        //    string url = "ExerciseData/FindExercise/" + id;
+        //    HttpResponseMessage response = client.GetAsync(url).Result;
+        //    Exercise Exercise = response.Content.ReadAsAsync<Exercise>().Result;
+        //    return View(Exercise);
+        //}
+
+        //// POST: Exercise/Delete/5
+        //[HttpPost]
+        //public ActionResult Delete(int id)
+        //{
+        //    string url = "ExerciseData/DeleteExercise/" + id;
+        //    HttpContent content = new StringContent("");
+        //    content.Headers.ContentType.MediaType = "application/json";
+        //    HttpResponseMessage response = client.PostAsync(url, content).Result;
+
+        //    if (response.IsSuccessStatusCode)
+        //    {
+        //        return RedirectToAction("List");
+        //    }
+        //    else
+        //    {
+        //        return RedirectToAction("Error");
+        //    }
+        //}
+
     }
 }
