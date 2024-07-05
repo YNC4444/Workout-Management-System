@@ -65,6 +65,12 @@ namespace PassionProjectn01681774.Controllers
             return View();
         }
 
+        public ActionResult New()
+        {
+
+            return View();
+        }
+
         // POST: Exercise/Create
         [HttpPost]
         public ActionResult Create(Exercise exercise)
@@ -147,19 +153,23 @@ namespace PassionProjectn01681774.Controllers
             }
         }
 
-        // GET: Animal/Delete/5
-        //public ActionResult Delete(int id)
+        //get: animal/delete/5
+        //public actionresult deleteconfirm(int id)
         //{
-        //    return View();
+        //    if (exercise == null)
+        //    {
+        //        return httpnotfound();
+        //    }
+
+        //    return view();
         //}
 
         // POST: Animal/Delete/5
         [HttpPost]
-        public ActionResult DeleteConfirm(int id)
+        public ActionResult Delete(int id)
         {
             try
             {
-                // TODO: Add delete logic here
                 string url = "DeleteExercise/" + id;
                 HttpContent content = new StringContent("");
 
@@ -173,14 +183,18 @@ namespace PassionProjectn01681774.Controllers
             }
         }
 
-        //// GET: Exercise/Delete/5
-        //public ActionResult DeleteConfirm(int id)
-        //{
-        //    string url = "ExerciseData/FindExercise/" + id;
-        //    HttpResponseMessage response = client.GetAsync(url).Result;
-        //    Exercise Exercise = response.Content.ReadAsAsync<Exercise>().Result;
-        //    return View(Exercise);
-        //}
+        // get: exercise/delete/5
+        public ActionResult DeleteConfirm(int id)
+        {
+            string url = "ExerciseData/FindExercise/" + id;
+            HttpResponseMessage response = client.GetAsync(url).Result;
+
+            Debug.WriteLine("The response code is ");
+            Debug.WriteLine(response.StatusCode);
+
+            Exercise exercise = response.Content.ReadAsAsync<Exercise>().Result;
+            return View(exercise);
+        }
 
         //// POST: Exercise/Delete/5
         //[HttpPost]

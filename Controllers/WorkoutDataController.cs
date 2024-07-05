@@ -17,9 +17,19 @@ namespace PassionProjectn01681774.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: api/WorkoutData/ListWorkouts
+        /// <summary>
+        /// Returns all workouts in the system.
+        /// </summary>
+        /// <returns>
+        /// HEADER: 200 (OK)
+        /// CONTENT: all workouts in the database, including their associated muscle groups.
+        /// </returns>
+        /// <example>
+        /// GET: api/WorkoutData/ListWorkouts
+        /// </example>        
         [HttpGet]
-        public IEnumerable<WorkoutDto> ListWorkouts()
+        [ResponseType(typeof(WorkoutDto))]
+        public IHttpActionResult ListWorkouts()
         {
             List<Workout> Workouts = db.Workouts.ToList();
             List<WorkoutDto> WorkoutDtos = new List<WorkoutDto>();
@@ -31,11 +41,24 @@ namespace PassionProjectn01681774.Controllers
                 WorkoutDate = a.WorkoutDate
             }));
 
-            return WorkoutDtos;
+            return Ok(WorkoutDtos);
         }
 
-        // GET: api/WorkoutData/FindWorkout/5
-        [ResponseType(typeof(Workout))]
+
+        /// <summary>
+        /// Returns all workout in the system.
+        /// </summary>
+        /// <returns>
+        /// HEADER: 200 (OK)
+        /// CONTENT: A workout in the system matching up to the workout ID primary key
+        /// or
+        /// HEADER: 404 (NOT FOUND)
+        /// </returns>
+        /// <param name="id">The primary key of the workout</param>
+        /// <example>
+        /// GET: api/WorkoutData/FindWorkout/5
+        /// </example>
+        [ResponseType(typeof(WorkoutDto))]
         [HttpGet]
         public IHttpActionResult FindWorkout(int id)
         {
@@ -54,7 +77,23 @@ namespace PassionProjectn01681774.Controllers
             return Ok(WorkoutDto);
         }
 
-        // POST: api/WorkoutData/UpdateWorkout/5
+
+        /// <summary>
+        /// Updates a particular workout in the system with POST Data input
+        /// </summary>
+        /// <param name="id">Represents the workout ID primary key</param>
+        /// <param name="workout">JSON FORM DATA of a workout</param>
+        /// <returns>
+        /// HEADER: 204 (Success, No Content Response)
+        /// or
+        /// HEADER: 400 (Bad Request)
+        /// or
+        /// HEADER: 404 (Not Found)
+        /// </returns>
+        /// <example>
+        /// POST: api/WorkoutData/UpdateWorkout/5
+        /// FORM DATA: Workout JSON Object
+        /// </example>
         [ResponseType(typeof(void))]
         [HttpPost]
         public IHttpActionResult UpdateWorkout(int id, Workout workout)

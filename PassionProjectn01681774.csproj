@@ -186,13 +186,14 @@
     <Compile Include="Controllers\ExerciseDataController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\WorkoutController.cs" />
     <Compile Include="Controllers\WorkoutDataController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202406181651295_Exercise.cs" />
-    <Compile Include="Migrations\202406181651295_Exercise.Designer.cs">
-      <DependentUpon>202406181651295_Exercise.cs</DependentUpon>
+    <Compile Include="Migrations\202406181651295_exercise.cs" />
+    <Compile Include="Migrations\202406181651295_exercise.Designer.cs">
+      <DependentUpon>202406181651295_exercise.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\202406292055165_Weight.cs" />
     <Compile Include="Migrations\202406292055165_Weight.Designer.cs">
@@ -309,6 +310,7 @@
     <Content Include="Views\Exercise\Error.cshtml" />
     <Content Include="Views\Exercise\Edit.cshtml" />
     <Content Include="Views\Exercise\DeleteConfirm.cshtml" />
+    <Content Include="Views\Workout\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -341,8 +343,8 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202406181651295_Exercise.resx">
-      <DependentUpon>202406181651295_Exercise.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202406181651295_exercise.resx">
+      <DependentUpon>202406181651295_exercise.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202406292055165_Weight.resx">
       <DependentUpon>202406292055165_Weight.cs</DependentUpon>

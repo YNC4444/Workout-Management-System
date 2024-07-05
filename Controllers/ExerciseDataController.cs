@@ -9,6 +9,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
+using PassionProjectn01681774.Migrations;
 using PassionProjectn01681774.Models;
 
 namespace PassionProjectn01681774.Controllers
@@ -85,11 +86,18 @@ namespace PassionProjectn01681774.Controllers
         {
             if (!ModelState.IsValid)
             {
+                Debug.WriteLine("Model state is invalid");
                 return BadRequest(ModelState);
             }
 
             if (id != exercise.ExerciseId)
             {
+                //Debug.WriteLine("Id mismatch");
+                //Debug.WriteLine("GET parameter" + id);
+                //Debug.WriteLine("POST parameter" + exercise.ExerciseId);
+                //Debug.WriteLine("POST parameter" + exercise.ExerciseName);
+                //Debug.WriteLine("POST parameter" + exercise.ExerciseDescription);
+
                 return BadRequest();
             }
 
