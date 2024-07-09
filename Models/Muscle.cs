@@ -10,7 +10,6 @@ namespace PassionProjectn01681774.Models
     {
         [Key]
         public int MuscleId { get; set; }
-
         public string GroupName { get; set; }
     }
 }
