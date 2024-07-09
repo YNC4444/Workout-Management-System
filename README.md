@@ -1,0 +1,1 @@
+This repository is about adding exercises and workouts to a database. Each workout features multiple exercises via a bridging table. Exercises can be categorized by which muscle group is engaged during the exercise. 
