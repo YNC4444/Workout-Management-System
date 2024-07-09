@@ -22,15 +22,24 @@ namespace PassionProjectn01681774.Controllers
         }
 
         // GET: Workout
-        //public ActionResult List()
-        //{
-        //    // objective: communicate with our exercise data api to retrieve a list of exercises
-        //    // curl https://localhost:44384/api/WorkoutData/ListWorkouts
+        public ActionResult List()
+        {
+            // objective: communicate with our exercise data api to retrieve a list of exercises
+            // curl https://localhost:44384/api/WorkoutData/ListWorkouts
 
-        //    string url = 
+            string url = "ListWorkouts";
+            HttpResponseMessage response = client.GetAsync(url).Result;
 
-        //    return View();
-        //}
+            Debug.WriteLine("The response code is ");
+            Debug.WriteLine(response.StatusCode);
+
+            IEnumerable<WorkoutDto> workouts = response.Content.ReadAsAsync<IEnumerable<WorkoutDto>>().Result;
+
+            //Debug.WriteLine("Number of workouts received : ");
+            //Debug.WriteLine(workouts.Count());
+
+            return View(workouts);
+        }
 
         // GET: Workout/Details/5
         public ActionResult Details(int id)

@@ -139,10 +139,24 @@ namespace PassionProjectn01681774.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/WorkoutData/AddWorkout
+
+        /// <summary>
+        /// Adds an workout to the system
+        /// </summary>
+        /// <param name="workout">JSON FORM DATA of an workout</param>
+        /// <returns>
+        /// HEADER: 201 (Created)
+        /// CONTENT: Workout ID, workout Data
+        /// or
+        /// HEADER: 400 (Bad Request)
+        /// </returns>
+        /// <example>
+        /// POST: api/WorkoutData/AddWorkout
+        /// FORM DATA: Workout JSON Object
+        /// </example>
         [ResponseType(typeof(Workout))]
         [HttpPost]
-        public IHttpActionResult PostWorkout(Workout workout)
+        public IHttpActionResult AddWorkout(Workout workout)
         {
             if (!ModelState.IsValid)
             {
@@ -155,7 +169,20 @@ namespace PassionProjectn01681774.Controllers
             return CreatedAtRoute("DefaultApi", new { id = workout.WorkoutId }, workout);
         }
 
-        // POST]: api/WorkoutData/DeleteWorkout/5
+
+        /// <summary>
+        /// Deletes an workout from the system by it's ID.
+        /// </summary>
+        /// <param name="id">The primary key of the workout</param>
+        /// <returns>
+        /// HEADER: 200 (OK)
+        /// or
+        /// HEADER: 404 (NOT FOUND)
+        /// </returns>
+        /// <example>
+        /// POST: api/WorkoutData/DeleteWorkout/5
+        /// FORM DATA: (empty)
+        /// </example>
         [ResponseType(typeof(Workout))]
         [HttpPost]
         public IHttpActionResult DeleteWorkout(int id)

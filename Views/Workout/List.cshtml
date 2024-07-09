@@ -1,7 +1,13 @@
-﻿
+﻿@model IEnumerable<PassionProjectn01681774.Models.WorkoutDto>
 @{
     ViewBag.Title = "List";
 }
 
 <h2>List</h2>
+@foreach (var Workout in Model)
+{
+    <h2><a href="Show/@Workout.WorkoutId">date: @Workout.WorkoutDate</a></h2>
+    <div>muscle group: @Workout.muscleId</div>
 
+
+} 

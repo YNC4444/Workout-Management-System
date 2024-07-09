@@ -7,7 +7,7 @@ using System.Web;
 
 namespace PassionProjectn01681774.Models
 {
-    public class WorkoutXExercises
+    public class WorkoutXExercise
     {
         [Key]
         public int Id { get; set; }
