@@ -37,7 +37,7 @@ namespace PassionProjectn01681774.Controllers
             Workouts.ForEach(a => WorkoutDtos.Add(new WorkoutDto()
             {
                 WorkoutId = a.WorkoutId,
-                muscleId = a.muscleId,
+                //MuscleId = a.MuscleId,
                 WorkoutDate = a.WorkoutDate
             }));
 
@@ -66,7 +66,7 @@ namespace PassionProjectn01681774.Controllers
             WorkoutDto WorkoutDto = new WorkoutDto()
             {
                 WorkoutId = Workout.WorkoutId,
-                muscleId = Workout.muscleId,
+                //MuscleId = Workout.MuscleId,
                 WorkoutDate = Workout.WorkoutDate
             };
             if (Workout == null)
@@ -111,7 +111,7 @@ namespace PassionProjectn01681774.Controllers
                 Debug.WriteLine("GET parameter" + id);
                 Debug.WriteLine("POST parameter" + workout.WorkoutId);
                 Debug.WriteLine("POST parameter" + workout.WorkoutDate);
-                Debug.WriteLine("POST parameter" + workout.muscleId);
+                //Debug.WriteLine("POST parameter" + workout.MuscleId);
 
                 return BadRequest();
             }

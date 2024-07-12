@@ -11,12 +11,6 @@ namespace PassionProjectn01681774.Models
     {
         [Key]
         public int WorkoutId { get; set; }
-
-        // a workout only focuses on one muscle (group)
-        // a muscle (group) can be the focus of many owrkouts 
-        [ForeignKey("Muscle")]
-        public int muscleId { get; set; }
-        public virtual Muscle Muscle { get; set; }
         public string WorkoutDate {  get; set; } 
 
         // one workout can have many exercises
@@ -29,8 +23,5 @@ namespace PassionProjectn01681774.Models
     {
         public int WorkoutId { get; set; }
         public string WorkoutDate { get; set; }
-        public int muscleId { get; set; }
-
-
     }
 }

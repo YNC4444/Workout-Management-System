@@ -7,13 +7,13 @@ namespace PassionProjectn01681774.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class Muscle : IMigrationMetadata
+    public sealed partial class fullMigrate : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Muscle));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(fullMigrate));
         
         string IMigrationMetadata.Id
         {
-            get { return "202406292108595_Muscle"; }
+            get { return "202407121951138_fullMigrate"; }
         }
         
         string IMigrationMetadata.Source
