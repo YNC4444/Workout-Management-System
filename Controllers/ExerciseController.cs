@@ -33,7 +33,7 @@ namespace PassionProjectn01681774.Controllers
             //Debug.WriteLine("The response code is ");
             //Debug.WriteLine(response.StatusCode);
 
-            IEnumerable<Exercise> Exercises = response.Content.ReadAsAsync<IEnumerable<Exercise>>().Result;
+            IEnumerable<ExerciseDto> Exercises = response.Content.ReadAsAsync<IEnumerable<ExerciseDto>>().Result;
             //Debug.WriteLine("Number of exercises received : ");
             //Debug.WriteLine(Exercises.Count());
 

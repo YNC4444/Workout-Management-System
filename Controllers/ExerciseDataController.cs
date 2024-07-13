@@ -29,11 +29,30 @@ namespace PassionProjectn01681774.Controllers
         /// GET: api/ExerciseData/ListExercises
         /// </example>
         [HttpGet]
-        public IQueryable<Exercise> ListExercises()
+        [ResponseType(typeof(ExerciseDto))]
+        public IHttpActionResult ListExercises()
         {
-            return db.Exercises;
-        }
+            List<Exercise> Exercises = db.Exercises.ToList();
+            List<ExerciseDto> ExerciseDtos = new List<ExerciseDto>();
 
+            Exercises.ForEach(e => ExerciseDtos.Add(new ExerciseDto()
+            {
+                ExerciseId = e.ExerciseId,
+                ExerciseName = e.ExerciseName,
+                GroupName = e.Muscle.GroupName,
+                ExerciseDescription = e.ExerciseDescription
+            }));
+
+            return Ok(ExerciseDtos);
+        }
+        //public class ExerciseDto
+        //{
+        //    public int ExerciseId { get; set; }
+        //    public string ExerciseName { get; set; }
+        //    // muscle group name
+        //    public string GroupName { get; set; }
+        //    public string ExerciseDescription { get; set; }
+        //}
 
         /// <summary>
         /// Returns all exercises in the system.

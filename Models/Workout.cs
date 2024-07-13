@@ -15,13 +15,12 @@ namespace PassionProjectn01681774.Models
 
         // one workout can have many exercises
         public ICollection<Exercise> Exercises { get; set; }
-
-
     }
 
     public class WorkoutDto
     {
         public int WorkoutId { get; set; }
+        public string ExerciseName { get; set; }
         public string WorkoutDate { get; set; }
     }
 }

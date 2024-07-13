@@ -15,17 +15,26 @@ namespace PassionProjectn01681774.Models
         public int ExerciseId {  get; set; }
         public string ExerciseName { get; set; }
         public string ExerciseDescription { get; set; }
+        // weight is in lb
         public int ExerciseWeight { get; set; }
 
         // an exercise can only focus on one muscle (group)
         // a muscle (group) can be the focus of many exercises
         [ForeignKey("Muscle")]
-
         public int MuscleId { get; set; }
-
         public virtual Muscle Muscle { get; set; }
 
         // one exercise can be in many workouts
         public ICollection<Workout> Workouts { get; set; }
+
+
+    }
+    public class ExerciseDto
+    {
+        public int ExerciseId { get; set; }
+        public string ExerciseName { get; set; }
+        // muscle group name
+        public string GroupName { get; set; }
+        public string ExerciseDescription { get; set; }
     }
 }
