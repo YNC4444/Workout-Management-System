@@ -33,6 +33,7 @@ namespace PassionProjectn01681774.Models
     {
         public int ExerciseId { get; set; }
         public string ExerciseName { get; set; }
+
         // muscle group name
         public string GroupName { get; set; }
         public string ExerciseDescription { get; set; }

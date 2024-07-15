@@ -26,9 +26,12 @@ namespace PassionProjectn01681774.Controllers
         /// CONTENT: all exercises in the database, including the weight they were last performed at
         /// </returns>
         /// <example>
-        /// GET: api/ExerciseData/ListExercises
+        /// GET: api/ExerciseData/ListExercises -->
+        /// [{"ExerciseId":2,"ExerciseName":"Deadlift","GroupName":"legs","ExerciseDescription":"Place feet shoulder-width apart, ..."},
+        /// {"ExerciseId":3,"ExerciseName":"Hip thrust","GroupName":"legs","ExerciseDescription":"Tighten belt such that it ..."}]
         /// </example>
         [HttpGet]
+        [Route("api/ExerciseData/ListExercises")]
         [ResponseType(typeof(ExerciseDto))]
         public IHttpActionResult ListExercises()
         {
@@ -45,14 +48,6 @@ namespace PassionProjectn01681774.Controllers
 
             return Ok(ExerciseDtos);
         }
-        //public class ExerciseDto
-        //{
-        //    public int ExerciseId { get; set; }
-        //    public string ExerciseName { get; set; }
-        //    // muscle group name
-        //    public string GroupName { get; set; }
-        //    public string ExerciseDescription { get; set; }
-        //}
 
         /// <summary>
         /// Returns all exercises in the system.
@@ -67,19 +62,26 @@ namespace PassionProjectn01681774.Controllers
         /// <example>
         /// GET: api/ExerciseData/FindExercise/5
         /// </example>
-        [ResponseType(typeof(Exercise))]
+        [ResponseType(typeof(ExerciseDto))]
         [HttpGet]
         public IHttpActionResult FindExercise(int id)
         {
-            Exercise exercise = db.Exercises.Find(id);
-            if (exercise == null)
+            Exercise Exercise = db.Exercises.Find(id);
+            ExerciseDto ExerciseDto = new ExerciseDto()
+            {
+                ExerciseId = Exercise.ExerciseId,
+                ExerciseName = Exercise.ExerciseName,
+                GroupName = Exercise.Muscle.GroupName,
+                ExerciseDescription = Exercise.ExerciseDescription
+            };
+            if (Exercise == null)
             {
                 Debug.WriteLine("Exercise not found");
 
                 return NotFound();
             }
 
-            return Ok(exercise);
+            return Ok(ExerciseDto);
         }
 
 
@@ -103,6 +105,7 @@ namespace PassionProjectn01681774.Controllers
         [HttpPost]
         public IHttpActionResult UpdateExercise(int id, Exercise exercise)
         {
+            Debug.WriteLine("Reached update exercise method");
             if (!ModelState.IsValid)
             {
                 Debug.WriteLine("Model state is invalid");
@@ -111,11 +114,11 @@ namespace PassionProjectn01681774.Controllers
 
             if (id != exercise.ExerciseId)
             {
-                //Debug.WriteLine("Id mismatch");
-                //Debug.WriteLine("GET parameter" + id);
-                //Debug.WriteLine("POST parameter" + exercise.ExerciseId);
-                //Debug.WriteLine("POST parameter" + exercise.ExerciseName);
-                //Debug.WriteLine("POST parameter" + exercise.ExerciseDescription);
+                Debug.WriteLine("Id mismatch");
+                Debug.WriteLine("GET parameter: " + id);
+                Debug.WriteLine("POST parameter" + exercise.ExerciseId);
+                Debug.WriteLine("POST parameter" + exercise.ExerciseName);
+                Debug.WriteLine("POST parameter" + exercise.ExerciseDescription);
 
                 return BadRequest();
             }
@@ -130,6 +133,7 @@ namespace PassionProjectn01681774.Controllers
             {
                 if (!ExerciseExists(id))
                 {
+                    Debug.WriteLine("Exercise not found");
                     return NotFound();
                 }
                 else
@@ -138,6 +142,7 @@ namespace PassionProjectn01681774.Controllers
                 }
             }
 
+            Debug.WriteLine("None of the conditions triggered");
             return StatusCode(HttpStatusCode.NoContent);
         }
 

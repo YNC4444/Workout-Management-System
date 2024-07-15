@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using PassionProjectn01681774.Models;
 using System.Web.Script.Serialization;
+using System.Security.Policy;
 
 namespace PassionProjectn01681774.Controllers
 {
@@ -24,10 +25,11 @@ namespace PassionProjectn01681774.Controllers
         // GET: Workout
         public ActionResult List()
         {
-            // objective: communicate with our exercise data api to retrieve a list of exercises
+            // objective: communicate with our workout data api to retrieve a list of workouts
             // curl https://localhost:44384/api/WorkoutData/ListWorkouts
 
-            string url = "ListWorkouts";
+            HttpClient client = new HttpClient() { };
+            string url = "https://localhost:44384/api/WorkoutData/ListWorkouts";
             HttpResponseMessage response = client.GetAsync(url).Result;
 
             Debug.WriteLine("The response code is ");
@@ -41,10 +43,24 @@ namespace PassionProjectn01681774.Controllers
             return View(workouts);
         }
 
-        // GET: Workout/Details/5
-        public ActionResult Details(int id)
+        // GET: Workout/Show/5
+        public ActionResult Show(int id)
         {
-            return View();
+            // objective: communicate with our workout data api to retrieve a list of workouts
+            // curl https://localhost:44384/api/WorkoutData/FindWorkout/{id}
+
+            HttpClient client = new HttpClient() { };
+            string url = "https://localhost:44384/api/WorkoutData/FindWorkout/" + id;
+            HttpResponseMessage response = client.GetAsync(url).Result;
+
+            Debug.WriteLine("The response code is ");
+            Debug.WriteLine(response.StatusCode);
+
+            WorkoutDto Workout = response.Content.ReadAsAsync<WorkoutDto>().Result;
+            Debug.WriteLine("workout received: ");
+            Debug.WriteLine(Workout.WorkoutDate);
+
+            return View(Workout);
         }
 
         // GET: Workout/Create
@@ -57,6 +73,7 @@ namespace PassionProjectn01681774.Controllers
         [HttpPost]
         public ActionResult Create(FormCollection collection)
         {
+            //curl - H "Content-Type:application/json" - d @workout.json https://localhost:44384/api/WorkoutData/AddWorkout
             try
             {
                 // TODO: Add insert logic here
@@ -79,6 +96,7 @@ namespace PassionProjectn01681774.Controllers
         [HttpPost]
         public ActionResult Edit(int id, FormCollection collection)
         {
+            // curl -H "Content-Type:application/json" -d @workout.json "https://localhost:44384/api/WorkoutData/UpdateWorkout/{id}"
             try
             {
                 // TODO: Add update logic here
@@ -101,6 +119,7 @@ namespace PassionProjectn01681774.Controllers
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
+            // curl -d "" https://localhost:44384/api/WorkoutData/DeleteWorkout/{id}
             try
             {
                 // TODO: Add delete logic here

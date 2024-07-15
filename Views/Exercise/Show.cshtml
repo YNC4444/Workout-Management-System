@@ -1,13 +1,13 @@
-﻿@model PassionProjectn01681774.Models.Exercise
+﻿@model PassionProjectn01681774.Models.ExerciseDto
 
 @{
     ViewBag.Title = "Show";
 }
 
 <a href="/Exercise/List">Go back to list</a>
-
 <h2>@Model.ExerciseName</h2>
-<div>@Model.ExerciseDescription: </div>
+<div>Muscle group: @Model.GroupName</div>
+<div>Description: @Model.ExerciseDescription</div>
 
 <a href="/Exercise/Edit/@Model.ExerciseId">Edit Exercise</a>
 

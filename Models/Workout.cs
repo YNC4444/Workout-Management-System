@@ -20,7 +20,6 @@ namespace PassionProjectn01681774.Models
     public class WorkoutDto
     {
         public int WorkoutId { get; set; }
-        public string ExerciseName { get; set; }
         public string WorkoutDate { get; set; }
     }
 }

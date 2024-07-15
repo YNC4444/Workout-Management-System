@@ -27,7 +27,8 @@ namespace PassionProjectn01681774.Controllers
             // objective: communicate with our exercise data api to retrieve a list of exercises
             // curl https://localhost:44384/api/ExerciseData/ListExercises
 
-            string url = "ListExercises";
+            HttpClient client = new HttpClient() { };
+            string url = "https://localhost:44384/api/ExerciseData/ListExercises";
             HttpResponseMessage response = client.GetAsync(url).Result;
 
             //Debug.WriteLine("The response code is ");
@@ -46,16 +47,16 @@ namespace PassionProjectn01681774.Controllers
             // objective: communicate with our exercise data api to retrieve a list of exercises
             // curl https://localhost:44384/api/ExerciseData/FindExercise/{id}
 
-
-            string url = "FindExercise/"+id;
+            HttpClient client = new HttpClient() { };
+            string url = "https://localhost:44384/api/ExerciseData/FindExercise/"+id;
             HttpResponseMessage response = client.GetAsync(url).Result;
 
-            //Debug.WriteLine("The response code is ");
-            //Debug.WriteLine(response.StatusCode);
+            Debug.WriteLine("The response code is ");
+            Debug.WriteLine(response.StatusCode);
 
-            Exercise Exercise = response.Content.ReadAsAsync<Exercise>().Result;
-            //Debug.WriteLine("exercise received: ");
-            //Debug.WriteLine(Exercise.ExerciseName);
+            ExerciseDto Exercise = response.Content.ReadAsAsync<ExerciseDto>().Result;
+            Debug.WriteLine("exercise received: ");
+            Debug.WriteLine(Exercise.ExerciseName);
 
             return View(Exercise);
         }
@@ -65,6 +66,7 @@ namespace PassionProjectn01681774.Controllers
             return View();
         }
 
+        // GET: Exercise/New
         public ActionResult New()
         {
 
@@ -105,7 +107,7 @@ namespace PassionProjectn01681774.Controllers
             //grab the exercise information
 
             //objective: communicate with our exercise data api to retrieve one exercise
-            //curl https://localhost:44384/api/ExerciseData/FindExercise/{id}
+            //curl -d @exercise.json "https://localhost:44384/api/ExerciseData/FindExercise/{id}"
 
             string url = "FindExercise/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
@@ -123,6 +125,8 @@ namespace PassionProjectn01681774.Controllers
         [HttpPost]
         public ActionResult Update(int id, Exercise exercise)
         {
+            //curl -H "Content-Type:application/json" -d @exercise.json "https://localhost:44384/api/ExerciseData/UpdateExercise/{id}"
+
             try
             {
                 Debug.WriteLine("The new exercise info is:");
@@ -170,6 +174,7 @@ namespace PassionProjectn01681774.Controllers
         {
             try
             {
+                // curl -d "" https://localhost:44384/api/ExerciseData/DeleteExercise/{id}
                 string url = "DeleteExercise/" + id;
                 HttpContent content = new StringContent("");
 

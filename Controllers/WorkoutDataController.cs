@@ -37,7 +37,6 @@ namespace PassionProjectn01681774.Controllers
             Workouts.ForEach(a => WorkoutDtos.Add(new WorkoutDto()
             {
                 WorkoutId = a.WorkoutId,
-                //MuscleId = a.MuscleId,
                 WorkoutDate = a.WorkoutDate
             }));
 
@@ -66,7 +65,6 @@ namespace PassionProjectn01681774.Controllers
             WorkoutDto WorkoutDto = new WorkoutDto()
             {
                 WorkoutId = Workout.WorkoutId,
-                //MuscleId = Workout.MuscleId,
                 WorkoutDate = Workout.WorkoutDate
             };
             if (Workout == null)
