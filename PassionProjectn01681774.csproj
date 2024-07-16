@@ -186,6 +186,8 @@
     <Compile Include="Controllers\ExerciseDataController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MuscleController.cs" />
+    <Compile Include="Controllers\MuscleDataController.cs" />
     <Compile Include="Controllers\WorkoutController.cs" />
     <Compile Include="Controllers\WorkoutDataController.cs" />
     <Compile Include="Global.asax.cs">
@@ -290,6 +292,7 @@
     <Content Include="Views\Workout\Error.cshtml" />
     <Content Include="Views\Workout\Edit.cshtml" />
     <Content Include="Views\Workout\DeleteConfirm.cshtml" />
+    <Content Include="Views\Muscle\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

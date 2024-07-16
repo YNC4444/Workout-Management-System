@@ -19,7 +19,7 @@ namespace PassionProjectn01681774.Controllers
         static WorkoutController()
         {
             client = new HttpClient();
-            client.BaseAddress = new Uri("https://localhost:44384/api/WorkoutData/");
+            client.BaseAddress = new Uri("https://localhost:44384/api/");
         }
 
         // GET: Workout/List
@@ -28,7 +28,7 @@ namespace PassionProjectn01681774.Controllers
             // objective: communicate with our workout data api to retrieve a list of workouts
             // curl https://localhost:44384/api/WorkoutData/ListWorkouts
 
-            string url = "ListWorkouts";
+            string url = "WorkoutData/ListWorkouts";
             HttpResponseMessage response = client.GetAsync(url).Result;
 
             //Debug.WriteLine("The response code is ");
@@ -48,7 +48,7 @@ namespace PassionProjectn01681774.Controllers
             // objective: communicate with our workout data api to retrieve a list of workouts
             // curl https://localhost:44384/api/WorkoutData/FindWorkout/{id}
 
-            string url = "FindWorkout/" + id;
+            string url = "WorkoutData/FindWorkout/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
 
             //Debug.WriteLine("The response code is ");
@@ -81,7 +81,7 @@ namespace PassionProjectn01681774.Controllers
             Debug.WriteLine("the json payload is: ");
             Debug.WriteLine(workout.WorkoutDate);
 
-            string url = "AddWorkout";
+            string url = "WorkoutData/AddWorkout";
 
             string jsonpayload = jss.Serialize(workout);
 
@@ -109,7 +109,7 @@ namespace PassionProjectn01681774.Controllers
             //objective: communicate with our workout data api to retrieve one workout
             //curl -d @workout.json "https://localhost:44384/api/WorkoutData/FindWorkout/{id}"
 
-            string url = "FindWorkout/" + id;
+            string url = "WorkoutData/FindWorkout/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
 
             //Debug.WriteLine("The response code is ");
@@ -137,7 +137,7 @@ namespace PassionProjectn01681774.Controllers
                 //serialize into JSON
                 //Send the request to the API
 
-                string url = "UpdateWorkout/" + id;
+                string url = "WorkoutData/UpdateWorkout/" + id;
 
                 string jsonpayload = jss.Serialize(workout);
                 Debug.WriteLine(jsonpayload);
@@ -161,7 +161,7 @@ namespace PassionProjectn01681774.Controllers
         // GET: Workout/DeleteConfirm/5
         public ActionResult DeleteConfirm(int id)
         {
-            string url = "FindWorkout/" + id;
+            string url = "WorkoutData/FindWorkout/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
 
             Debug.WriteLine("The response code is ");
@@ -176,18 +176,19 @@ namespace PassionProjectn01681774.Controllers
         public ActionResult Delete(int id)
         {
             // curl -d "" https://localhost:44384/api/WorkoutData/DeleteWorkout/{id}
-            try
+
+            string url = "WorkoutData/DeleteWorkout/" + id;
+            HttpContent content = new StringContent("");
+            content.Headers.ContentType.MediaType = "application/json";
+            HttpResponseMessage response = client.PostAsync(url, content).Result;
+
+            if (response.IsSuccessStatusCode)
             {
-                string url = "DeleteWorkout/" + id;
-                HttpContent content = new StringContent("");
-
-                client.PostAsync(url, content);
-
                 return RedirectToAction("List");
             }
-            catch
+            else
             {
-                return View();
+                return RedirectToAction("Error");
             }
         }
     }
