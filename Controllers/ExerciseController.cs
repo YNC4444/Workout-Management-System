@@ -166,16 +166,16 @@ namespace PassionProjectn01681774.Controllers
         //    return view();
         //}
 
-        // get: exercise/delete/5
+        // get: exercise/DeleteConfirm/5
         public ActionResult DeleteConfirm(int id)
         {
             string url = "FindExercise/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
 
-            Debug.WriteLine("The response code is ");
-            Debug.WriteLine(response.StatusCode);
+            //Debug.WriteLine("The response code is ");
+            //Debug.WriteLine(response.StatusCode);
 
-            Exercise exercise = response.Content.ReadAsAsync<Exercise>().Result;
+            ExerciseDto exercise = response.Content.ReadAsAsync<ExerciseDto>().Result;
             return View(exercise);
         }
 
@@ -184,7 +184,6 @@ namespace PassionProjectn01681774.Controllers
         public ActionResult Delete(int id)
         {
             // curl -d "" https://localhost:44384/api/ExerciseData/DeleteExercise/{id}
-
             try
             {
                 string url = "DeleteExercise/" + id;

@@ -158,22 +158,32 @@ namespace PassionProjectn01681774.Controllers
             }
         }
 
-        // GET: Workout/Delete/5
-        public ActionResult Delete(int id)
+        // GET: Workout/DeleteConfirm/5
+        public ActionResult DeleteConfirm(int id)
         {
-            return View();
+            string url = "FindWorkout/" + id;
+            HttpResponseMessage response = client.GetAsync(url).Result;
+
+            Debug.WriteLine("The response code is ");
+            Debug.WriteLine(response.StatusCode);
+
+            Workout workout = response.Content.ReadAsAsync<Workout>().Result;
+            return View(workout);
         }
 
         // POST: Workout/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id)
         {
             // curl -d "" https://localhost:44384/api/WorkoutData/DeleteWorkout/{id}
             try
             {
-                // TODO: Add delete logic here
+                string url = "DeleteWorkout/" + id;
+                HttpContent content = new StringContent("");
 
-                return RedirectToAction("Index");
+                client.PostAsync(url, content);
+
+                return RedirectToAction("List");
             }
             catch
             {

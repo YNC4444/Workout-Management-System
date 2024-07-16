@@ -61,6 +61,7 @@ namespace PassionProjectn01681774.Controllers
         /// <param name="id">The primary key of the exercise</param>
         /// <example>
         /// GET: api/ExerciseData/FindExercise/5
+        /// [{"ExerciseId":5,"ExerciseName":"Exercise 5 name","GroupName":"legs","ExerciseDescription":"Place feet shoulder-width apart, ..."}]
         /// </example>
         [ResponseType(typeof(ExerciseDto))]
         [HttpGet]
@@ -202,7 +203,7 @@ namespace PassionProjectn01681774.Controllers
             db.Exercises.Remove(exercise);
             db.SaveChanges();
 
-            return Ok(exercise); //deleted exercise parameter
+            return Ok(); //deleted exercise parameter
         }
 
         protected override void Dispose(bool disposing)
