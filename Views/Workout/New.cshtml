@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewBag.Title = "Add Workout";
+}
+
+<h2>Create Workout</h2>
+
+<form action="/Workout/Create" method="POST">
+    <div>
+        <label>Date:</label><input type="text" name="WorkoutDate"/> 
+    </div>
+    @* add functionality to add exercises and the weights used *@
+    <div>
+        <input type="submit" value="Add workout"/>
+    </div>
+</form>

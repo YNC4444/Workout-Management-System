@@ -28,12 +28,11 @@ namespace PassionProjectn01681774.Controllers
             // objective: communicate with our workout data api to retrieve a list of workouts
             // curl https://localhost:44384/api/WorkoutData/ListWorkouts
 
-            HttpClient client = new HttpClient() { };
-            string url = "https://localhost:44384/api/WorkoutData/ListWorkouts";
+            string url = "ListWorkouts";
             HttpResponseMessage response = client.GetAsync(url).Result;
 
-            Debug.WriteLine("The response code is ");
-            Debug.WriteLine(response.StatusCode);
+            //Debug.WriteLine("The response code is ");
+            //Debug.WriteLine(response.StatusCode);
 
             IEnumerable<WorkoutDto> workouts = response.Content.ReadAsAsync<IEnumerable<WorkoutDto>>().Result;
 
@@ -49,40 +48,51 @@ namespace PassionProjectn01681774.Controllers
             // objective: communicate with our workout data api to retrieve a list of workouts
             // curl https://localhost:44384/api/WorkoutData/FindWorkout/{id}
 
-            HttpClient client = new HttpClient() { };
-            string url = "https://localhost:44384/api/WorkoutData/FindWorkout/" + id;
+            string url = "FindWorkout/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
 
-            Debug.WriteLine("The response code is ");
-            Debug.WriteLine(response.StatusCode);
+            //Debug.WriteLine("The response code is ");
+            //Debug.WriteLine(response.StatusCode);
 
             WorkoutDto Workout = response.Content.ReadAsAsync<WorkoutDto>().Result;
-            Debug.WriteLine("workout received: ");
-            Debug.WriteLine(Workout.WorkoutDate);
+            //Debug.WriteLine("workout received: ");
+            //Debug.WriteLine(Workout.WorkoutDate);
 
             return View(Workout);
         }
 
         // GET: Workout/Create
-        public ActionResult Create()
+        public ActionResult New()
         {
             return View();
         }
 
         // POST: Workout/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Workout workout)
         {
+            // objective: add a new workout into our system using the API
             //curl - H "Content-Type:application/json" - d @workout.json https://localhost:44384/api/WorkoutData/AddWorkout
-            try
-            {
-                // TODO: Add insert logic here
+            Debug.WriteLine("the json payload is: ");
+            Debug.WriteLine(workout.WorkoutDate);
 
-                return RedirectToAction("Index");
-            }
-            catch
+            string url = "AddWorkout";
+
+            string jsonpayload = jss.Serialize(workout);
+
+            Debug.WriteLine(jsonpayload);
+
+            HttpContent content = new StringContent(jsonpayload);
+            content.Headers.ContentType.MediaType = "application/json";
+
+            HttpResponseMessage response = client.PostAsync(url, content).Result;
+            if (response.IsSuccessStatusCode)
             {
-                return View();
+                return RedirectToAction("List");
+            }
+            else
+            {
+                return RedirectToAction("Error");
             }
         }
 

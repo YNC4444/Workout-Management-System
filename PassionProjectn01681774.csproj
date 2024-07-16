@@ -286,6 +286,9 @@
     <Content Include="Views\Exercise\DeleteConfirm.cshtml" />
     <Content Include="Views\Workout\List.cshtml" />
     <Content Include="Views\Workout\Show.cshtml" />
+    <Content Include="Views\Workout\New.cshtml" />
+    <Content Include="Views\Workout\Error.cshtml" />
+    <Content Include="Views\Workout\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

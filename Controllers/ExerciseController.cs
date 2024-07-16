@@ -27,7 +27,6 @@ namespace PassionProjectn01681774.Controllers
             // objective: communicate with our exercise data api to retrieve a list of exercises
             // curl https://localhost:44384/api/ExerciseData/ListExercises
 
-            HttpClient client = new HttpClient() { };
             string url = "https://localhost:44384/api/ExerciseData/ListExercises";
             HttpResponseMessage response = client.GetAsync(url).Result;
 
@@ -47,16 +46,15 @@ namespace PassionProjectn01681774.Controllers
             // objective: communicate with our exercise data api to retrieve a list of exercises
             // curl https://localhost:44384/api/ExerciseData/FindExercise/{id}
 
-            HttpClient client = new HttpClient() { };
             string url = "https://localhost:44384/api/ExerciseData/FindExercise/"+id;
             HttpResponseMessage response = client.GetAsync(url).Result;
 
-            Debug.WriteLine("The response code is ");
-            Debug.WriteLine(response.StatusCode);
+            //Debug.WriteLine("The response code is ");
+            //Debug.WriteLine(response.StatusCode);
 
             ExerciseDto Exercise = response.Content.ReadAsAsync<ExerciseDto>().Result;
-            Debug.WriteLine("exercise received: ");
-            Debug.WriteLine(Exercise.ExerciseName);
+            //Debug.WriteLine("exercise received: ");
+            //Debug.WriteLine(Exercise.ExerciseName);
 
             return View(Exercise);
         }
@@ -168,13 +166,27 @@ namespace PassionProjectn01681774.Controllers
         //    return view();
         //}
 
+        // get: exercise/delete/5
+        public ActionResult DeleteConfirm(int id)
+        {
+            string url = "FindExercise/" + id;
+            HttpResponseMessage response = client.GetAsync(url).Result;
+
+            Debug.WriteLine("The response code is ");
+            Debug.WriteLine(response.StatusCode);
+
+            Exercise exercise = response.Content.ReadAsAsync<Exercise>().Result;
+            return View(exercise);
+        }
+
         // POST: Animal/Delete/5
         [HttpPost]
         public ActionResult Delete(int id)
         {
+            // curl -d "" https://localhost:44384/api/ExerciseData/DeleteExercise/{id}
+
             try
             {
-                // curl -d "" https://localhost:44384/api/ExerciseData/DeleteExercise/{id}
                 string url = "DeleteExercise/" + id;
                 HttpContent content = new StringContent("");
 
@@ -186,19 +198,6 @@ namespace PassionProjectn01681774.Controllers
             {
                 return View();
             }
-        }
-
-        // get: exercise/delete/5
-        public ActionResult DeleteConfirm(int id)
-        {
-            string url = "ExerciseData/FindExercise/" + id;
-            HttpResponseMessage response = client.GetAsync(url).Result;
-
-            Debug.WriteLine("The response code is ");
-            Debug.WriteLine(response.StatusCode);
-
-            Exercise exercise = response.Content.ReadAsAsync<Exercise>().Result;
-            return View(exercise);
         }
 
         //// POST: Exercise/Delete/5
