@@ -115,7 +115,7 @@ namespace PassionProjectn01681774.Controllers
 
             Exercise Exercise = response.Content.ReadAsAsync<Exercise>().Result;
             //Debug.WriteLine("exercise received : ");
-            //Debug.WriteLine(selectedexercise.ExerciseName);
+            //Debug.WriteLine(Exercise.ExerciseName);
 
             return View(Exercise);
         }
@@ -127,10 +127,10 @@ namespace PassionProjectn01681774.Controllers
 
             try
             {
-                Debug.WriteLine("The new exercise info is:");
-                Debug.WriteLine(exercise.ExerciseName);
-                Debug.WriteLine(exercise.ExerciseDescription);
-                Debug.WriteLine(exercise.ExerciseWeight);
+                //Debug.WriteLine("The new exercise info is:");
+                //Debug.WriteLine(exercise.ExerciseName);
+                //Debug.WriteLine(exercise.ExerciseDescription);
+                //Debug.WriteLine(exercise.ExerciseWeight);
 
                 //serialize into JSON
                 //Send the request to the API

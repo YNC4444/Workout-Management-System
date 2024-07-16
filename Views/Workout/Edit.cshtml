@@ -1,7 +1,18 @@
-﻿
+﻿@model PassionProjectn01681774.Models.Workout
 @{
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
+<h2>Edit Workout</h2>
 
+<form method="POST" action="/Workout/Update/@Model.WorkoutId">
+    <input type="text" style="display:none;" name="WorkoutId" value="@Model.WorkoutId" />
+    <div>
+        <label>Workout Date</label>
+        <input type="text" name="WorkoutDate" value="@Model.WorkoutDate" />
+    </div>
+
+    <div>
+        <input type="submit" value="Update" />
+    </div>
+</form>

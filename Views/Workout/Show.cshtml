@@ -3,6 +3,12 @@
     ViewBag.Title = "Details";
 }
 
+<a href="/Workout/List">Go back to workout list</a>
 <h2>Workout Details</h2>
 
 <div>Date: @Model.WorkoutDate</div>
+
+<a href="/Workout/Edit/@Model.WorkoutId">Edit Workout</a>
+
+<a href="/Workout/DeleteConfirm/@Model.WorkoutId">Delete Workout</a>
+

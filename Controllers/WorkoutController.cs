@@ -22,7 +22,7 @@ namespace PassionProjectn01681774.Controllers
             client.BaseAddress = new Uri("https://localhost:44384/api/WorkoutData/");
         }
 
-        // GET: Workout
+        // GET: Workout/List
         public ActionResult List()
         {
             // objective: communicate with our workout data api to retrieve a list of workouts
@@ -61,7 +61,12 @@ namespace PassionProjectn01681774.Controllers
             return View(Workout);
         }
 
-        // GET: Workout/Create
+        public ActionResult Error()
+        {
+            return View();
+        }
+
+        // GET: Workout/New
         public ActionResult New()
         {
             return View();
@@ -99,19 +104,53 @@ namespace PassionProjectn01681774.Controllers
         // GET: Workout/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            //grab the workout information
+
+            //objective: communicate with our workout data api to retrieve one workout
+            //curl -d @workout.json "https://localhost:44384/api/WorkoutData/FindWorkout/{id}"
+
+            string url = "FindWorkout/" + id;
+            HttpResponseMessage response = client.GetAsync(url).Result;
+
+            //Debug.WriteLine("The response code is ");
+            //Debug.WriteLine(response.StatusCode);
+
+            Workout Workout = response.Content.ReadAsAsync<Workout>().Result;
+            //Debug.WriteLine("workout received : ");
+            //Debug.WriteLine(Workout.WorkoutDate);
+
+            return View(Workout);
         }
 
-        // POST: Workout/Edit/5
+        // POST: Workout/Update/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Update(int id, Workout workout)
         {
-            // curl -H "Content-Type:application/json" -d @workout.json "https://localhost:44384/api/WorkoutData/UpdateWorkout/{id}"
+            //curl -H "Content-Type:application/json" -d @workout.json "https://localhost:44384/api/WorkoutData/UpdateWorkout/{id}"
+
             try
             {
-                // TODO: Add update logic here
+                //Debug.WriteLine("The new workout info is:");
+                //Debug.WriteLine(workout.WorkoutId);
+                //Debug.WriteLine(workout.WorkoutDate);
 
-                return RedirectToAction("Index");
+                //serialize into JSON
+                //Send the request to the API
+
+                string url = "UpdateWorkout/" + id;
+
+                string jsonpayload = jss.Serialize(workout);
+                Debug.WriteLine(jsonpayload);
+
+                HttpContent content = new StringContent(jsonpayload);
+                content.Headers.ContentType.MediaType = "application/json";
+
+                //POST: api/WorkoutData/UpdateWorkout/{id}
+                //Header : Content-Type: application/json
+                HttpResponseMessage response = client.PostAsync(url, content).Result;
+
+                return RedirectToAction("Show/" + id);
+
             }
             catch
             {
