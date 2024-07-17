@@ -8,6 +8,9 @@ using System.Web.Mvc;
 using PassionProjectn01681774.Models;
 using System.Web.Script.Serialization;
 using System.Security.Policy;
+// distinction made between ViewModels and Models bc ViewModels stores information
+// while Models create the database
+using PassionProjectn01681774.Models.ViewModels;
 
 namespace PassionProjectn01681774.Controllers
 {
@@ -69,7 +72,13 @@ namespace PassionProjectn01681774.Controllers
         // GET: Workout/New
         public ActionResult New()
         {
-            return View();
+            // information about the exercises in the system
+            //GET api/Exercise
+            string url = "ExerciseData/ListExercises";
+            HttpResponseMessage response = client.GetAsync(url).Result;
+            IEnumerable<Exercise> ExerciseOptions = response.Content.ReadAsAsync<IEnumerable<Exercise>>().Result;
+
+            return View(ExerciseOptions);
         }
 
         // POST: Workout/Create
@@ -100,26 +109,27 @@ namespace PassionProjectn01681774.Controllers
                 return RedirectToAction("Error");
             }
         }
-
+        //objective: communicate with our workout data api to retrieve one workout
+        //curl -d @workout.json "https://localhost:44384/api/WorkoutData/FindWorkout/{id}"
         // GET: Workout/Edit/5
         public ActionResult Edit(int id)
         {
-            //grab the workout information
-
-            //objective: communicate with our workout data api to retrieve one workout
-            //curl -d @workout.json "https://localhost:44384/api/WorkoutData/FindWorkout/{id}"
-
+            UpdateWorkout ViewModel = new UpdateWorkout();
+            
+            // the existing workout information
             string url = "WorkoutData/FindWorkout/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
+            WorkoutDto Workout = response.Content.ReadAsAsync<WorkoutDto>().Result;
+            ViewModel.Workout = Workout;
 
-            //Debug.WriteLine("The response code is ");
-            //Debug.WriteLine(response.StatusCode);
+            // all exercises to choose from when updating this workout
+            url = "ExerciseData/ListExercises";
+            response = client.GetAsync(url).Result;
+            IEnumerable<ExerciseDto> ExercisdOptions = response.Content.ReadAsAsync<IEnumerable<ExerciseDto>>().Result;
 
-            Workout Workout = response.Content.ReadAsAsync<Workout>().Result;
-            //Debug.WriteLine("workout received : ");
-            //Debug.WriteLine(Workout.WorkoutDate);
+            ViewModel.ExerciseOptions = ExercisdOptions;
 
-            return View(Workout);
+            return View(ViewModel);
         }
 
         // POST: Workout/Update/5

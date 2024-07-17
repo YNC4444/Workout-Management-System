@@ -1,4 +1,4 @@
-﻿@model PassionProjectn01681774.Models.Exercise
+﻿@model PassionProjectn01681774.Models.ViewModels.UpdateExercise
 
 @{
     ViewBag.Title = "Edit";
@@ -6,23 +6,28 @@
 
 <h2>Edit Exercise</h2>
 
-<form method="POST" action="/Exercise/Update/@Model.ExerciseId">
-    <input type="text" style="display:none;" name="ExerciseId" value="@Model.ExerciseId" />
+<form method="POST" action="/Exercise/Update/@Model.Exercise.ExerciseId">
+    <input type="text" style="display:none;" name="ExerciseId" value="@Model.Exercise.ExerciseId" />
     <div>
         <label>Name</label>
-        <input type="text" name="ExerciseName" value="@Model.ExerciseName" />
+        <input type="text" name="ExerciseName" value="@Model.Exercise.ExerciseName" />
     </div>
     <div>
         <label>Description</label>
-        <input type="text" name="ExerciseDescription" value="@Model.ExerciseDescription" />
+        <input type="text" name="ExerciseDescription" value="@Model.Exercise.ExerciseDescription" />
     </div>
     <div>
         <label>Weight</label>
-        <input type="number" name="ExerciseWeight" value="@Model.ExerciseWeight" />
+        <input type="number" name="ExerciseWeight" value="@Model.Exercise.ExerciseWeight" />
     </div>
     <div>
-        <label>Muscle group</label>
-        <input type="number" name="MuscleId" value="@Model.MuscleId"/>
+        <label>Muscle group:</label>
+        <select name="MuscleId">
+            @foreach (var muscle in Model.MuscleOptions)
+            {
+                <option value="@muscle.MuscleId">@muscle.GroupName</option>
+            }
+        </select>
     </div>
 
     <div>

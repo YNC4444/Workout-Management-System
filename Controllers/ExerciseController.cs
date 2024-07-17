@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using PassionProjectn01681774.Models;
 using System.Web.Script.Serialization;
+using PassionProjectn01681774.Models.ViewModels;
 
 namespace PassionProjectn01681774.Controllers
 {
@@ -69,7 +70,11 @@ namespace PassionProjectn01681774.Controllers
         {
             // information about the muscle groups in the system
             // GET api/Muscle
-            return View();
+            string url = "MuscleData/ListMuscles";
+            HttpResponseMessage response = client.GetAsync(url).Result;
+            IEnumerable<Muscle> MuscleOptions = response.Content.ReadAsAsync<IEnumerable<Muscle>>().Result;
+            
+            return View(MuscleOptions);
         }
 
         // POST: Exercise/Create
@@ -100,25 +105,27 @@ namespace PassionProjectn01681774.Controllers
             }
         }
 
+        //objective: communicate with our exercise data api to retrieve one exercise
+        //curl -d @exercise.json "https://localhost:44384/api/ExerciseData/FindExercise/{id}"
         // GET: Exercise/Edit/5
         public ActionResult Edit(int id)
         {
-            //grab the exercise information
+            UpdateExercise ViewModel = new UpdateExercise();
 
-            //objective: communicate with our exercise data api to retrieve one exercise
-            //curl -d @exercise.json "https://localhost:44384/api/ExerciseData/FindExercise/{id}"
-
+            // the existing exercise information
             string url = "ExerciseData/FindExercise/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
+            ExerciseDto Exercise = response.Content.ReadAsAsync<ExerciseDto>().Result;
+            ViewModel.Exercise = Exercise;
 
-            //Debug.WriteLine("The response code is ");
-            //Debug.WriteLine(response.StatusCode);
+            // also include all muscle groups to choose from when updating this exercise
+            url = "MuscleData/ListMuscles";
+            response = client.GetAsync(url).Result;
+            IEnumerable<Muscle> MuscleOptions = response.Content.ReadAsAsync<IEnumerable<Muscle>>().Result;
 
-            Exercise Exercise = response.Content.ReadAsAsync<Exercise>().Result;
-            //Debug.WriteLine("exercise received : ");
-            //Debug.WriteLine(Exercise.ExerciseName);
+            ViewModel.MuscleOptions = MuscleOptions;
 
-            return View(Exercise);
+            return View(ViewModel);
         }
 
         [HttpPost]

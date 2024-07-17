@@ -36,6 +36,8 @@ namespace PassionProjectn01681774.Models
 
         // muscle group name
         public string GroupName { get; set; }
+        public int ExerciseWeight { get; set; }
+
         public string ExerciseDescription { get; set; }
     }
 }

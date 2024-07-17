@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<PassionProjectn01681774.Models.Muscle>
 @{
     ViewBag.Title = "Add Exercise";
 }
@@ -15,7 +15,13 @@
         <label>Exercise Weight (optional):</label> <input type="number" name="ExerciseWeight" />
     </div>
     <div>
-        <label>Muscle group:</label> <input type="number" name="MuscleId"/>
+        <label>Muscle group:</label> 
+        <select name="MuscleId">
+            @foreach (var muscle in Model)
+            {
+                <option value="@muscle.MuscleId">@muscle.GroupName</option>
+            }
+        </select>
     </div>
     <div>
         <input type="submit" value="Add Exercise" />
