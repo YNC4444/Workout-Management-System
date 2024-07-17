@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+using PassionProjectn01681774.Models.ViewModels;
 
 namespace PassionProjectn01681774.Controllers
 {
@@ -39,10 +40,35 @@ namespace PassionProjectn01681774.Controllers
             return View(Muscles);
         }
 
-        // GET: Muscle/Details/5
-        public ActionResult Details(int id)
+        // GET: Muscle/Show/{id}
+        public ActionResult Show(int id)
         {
-            return View();
+            // objective: communicate with our muscle data api to retrieve a list of muscles
+            // curl https://localhost:44384/api/MuscleData/FindMuscle/{id}
+
+            ShowMuscle ViewModel = new ShowMuscle();
+
+            string url = "MuscleData/FindMuscle/" + id;
+            HttpResponseMessage response = client.GetAsync(url).Result;
+
+            //Debug.WriteLine("The response code is ");
+            //Debug.WriteLine(response.StatusCode);
+
+            Muscle Muscle = response.Content.ReadAsAsync<Muscle>().Result;
+            //Debug.WriteLine("muscle received: ");
+            //Debug.WriteLine(Muscle.MuscleName);
+
+            ViewModel.Muscle = Muscle;
+
+            // showcase information about exercises related to this muscle group
+            // send a request to gather information about exercises related to a specifi muscle ID
+            url = "ExerciseData/ListExercisesForMuscles/" + id;
+            response = client.GetAsync(url).Result;
+            IEnumerable<ExerciseDto> RelatedExercises = response.Content.ReadAsAsync<IEnumerable<ExerciseDto>>().Result; ;
+
+            ViewModel.RelatedExercises = RelatedExercises;
+
+            return View(ViewModel);
         }
 
         // GET: Muscle/Create

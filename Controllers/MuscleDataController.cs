@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -36,17 +37,33 @@ namespace PassionProjectn01681774.Controllers
             return Ok(Muscles);
         }
 
-        // GET: api/MuscleData/5
+        /// <summary>
+        /// Returns all exercises in the system.
+        /// </summary>
+        /// <returns>
+        /// HEADER: 200 (OK)
+        /// CONTENT: An muscle in the system matching up to the muscle ID primary key
+        /// or
+        /// HEADER: 404 (NOT FOUND)
+        /// </returns>
+        /// <param name="id">The primary key of the muscle</param>
+        /// <example>
+        /// GET: api/MuscleData/FindMuscle/5
+        /// [{"MuscleId":1,"GroupName":"Legs"}]
+        /// </example>
         [ResponseType(typeof(Muscle))]
-        public IHttpActionResult GetMuscle(int id)
+        [HttpGet]
+        public IHttpActionResult FindMuscle(int id)
         {
-            Muscle muscle = db.Muscles.Find(id);
-            if (muscle == null)
+            Muscle Muscle = db.Muscles.Find(id);
+            if (Muscle == null)
             {
+                Debug.WriteLine("muscle not found");
+
                 return NotFound();
             }
 
-            return Ok(muscle);
+            return Ok(Muscle);
         }
 
         // PUT: api/MuscleData/5
