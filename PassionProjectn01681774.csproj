@@ -203,6 +203,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Muscle.cs" />
+    <Compile Include="Models\ViewModels\ShowExercise.cs" />
     <Compile Include="Models\ViewModels\ShowMuscle.cs" />
     <Compile Include="Models\ViewModels\ShowWorkout.cs" />
     <Compile Include="Models\ViewModels\UpdateExercise.cs" />

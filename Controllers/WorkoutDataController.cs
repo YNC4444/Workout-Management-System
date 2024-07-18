@@ -43,6 +43,35 @@ namespace PassionProjectn01681774.Controllers
             return Ok(WorkoutDtos);
         }
 
+        /// <summary>
+        /// Returns all workouts in the system.
+        /// </summary>
+        /// <returns>
+        /// HEADER: 200 (OK)
+        /// CONTENT: all workouts in the database, including their associated muscle groups.
+        /// </returns>
+        /// <param name="id">Exercise Primary Key</param>
+        /// <example>
+        /// GET: api/WorkoutData/ListWorkoutsForExercise/2
+        /// </example>        
+        [HttpGet]
+        [ResponseType(typeof(WorkoutDto))]
+        public IHttpActionResult ListWorkoutsForExercise(int id)
+        {
+            List<Workout> Workouts = db.Workouts.Where(
+                w=>w.Exercises.Any(
+                    e=>e.ExerciseId==id)
+                ).ToList();
+            List<WorkoutDto> WorkoutDtos = new List<WorkoutDto>();
+
+            Workouts.ForEach(a => WorkoutDtos.Add(new WorkoutDto()
+            {
+                WorkoutId = a.WorkoutId,
+                WorkoutDate = a.WorkoutDate
+            }));
+
+            return Ok(WorkoutDtos);
+        }
 
         /// <summary>
         /// Returns all workout in the system.
