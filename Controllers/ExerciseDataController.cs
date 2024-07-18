@@ -54,17 +54,52 @@ namespace PassionProjectn01681774.Controllers
         /// </summary>
         /// <returns>
         /// HEADER: 200 (OK)
-        /// CONTENT: all exercises in the database, including their associated muscle group
+        /// CONTENT: all exercises in the database, including their associated muscle group matched
+        /// with a particular muscle id
         /// </returns>
-        /// <param name="id"></param>
+        /// <param name="id">muscle ID</param>
         /// <example>
-        /// GET: api/ExerciseData/ListExercisesForMuscles
+        /// GET: api/ExerciseData/ListExercisesForMuscles/2
         /// </example>
         [HttpGet]
         [ResponseType(typeof(ExerciseDto))]
         public IHttpActionResult ListExercisesForMuscles(int id)
         {
             List<Exercise> Exercises = db.Exercises.Where(e=>e.MuscleId==id).ToList();
+            List<ExerciseDto> ExerciseDtos = new List<ExerciseDto>();
+
+            Exercises.ForEach(e => ExerciseDtos.Add(new ExerciseDto()
+            {
+                ExerciseId = e.ExerciseId,
+                ExerciseName = e.ExerciseName,
+                GroupName = e.Muscle.GroupName,
+                ExerciseDescription = e.ExerciseDescription
+            }));
+
+            return Ok(ExerciseDtos);
+        }
+
+        /// <summary>
+        /// Returns all exercises related to a particular workout ID
+        /// </summary>
+        /// <returns>
+        /// HEADER: 200 (OK)
+        /// CONTENT: all exercises in the database, including their associated muscle groups which match
+        /// to a particular workout id
+        /// </returns>
+        /// <param name="id">workout ID</param>
+        /// <example>
+        /// GET: api/ExerciseData/ListExercisesForWorkout/3
+        /// </example>
+        [HttpGet]
+        [ResponseType(typeof(ExerciseDto))]
+        public IHttpActionResult ListExercisesForWorkout(int id)
+        {
+            // all exercises that have workouts that match with our ID
+            List<Exercise> Exercises = db.Exercises.Where(
+                e => e.Workouts.Any(
+                    w => w.WorkoutId == id
+                )).ToList();
             List<ExerciseDto> ExerciseDtos = new List<ExerciseDto>();
 
             Exercises.ForEach(e => ExerciseDtos.Add(new ExerciseDto()

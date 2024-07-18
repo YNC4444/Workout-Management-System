@@ -48,20 +48,31 @@ namespace PassionProjectn01681774.Controllers
         // GET: Workout/Show/5
         public ActionResult Show(int id)
         {
+            ShowWorkout ViewModel = new ShowWorkout();
+
             // objective: communicate with our workout data api to retrieve a list of workouts
             // curl https://localhost:44384/api/WorkoutData/FindWorkout/{id}
 
             string url = "WorkoutData/FindWorkout/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
 
-            //Debug.WriteLine("The response code is ");
-            //Debug.WriteLine(response.StatusCode);
+            Debug.WriteLine("The response code is ");
+            Debug.WriteLine(response.StatusCode);
 
-            WorkoutDto Workout = response.Content.ReadAsAsync<WorkoutDto>().Result;
-            //Debug.WriteLine("workout received: ");
-            //Debug.WriteLine(Workout.WorkoutDate);
+            WorkoutDto SelectedWorkout = response.Content.ReadAsAsync<WorkoutDto>().Result;
+            Debug.WriteLine("workout received: ");
+            Debug.WriteLine(SelectedWorkout.WorkoutDate);
 
-            return View(Workout);
+            ViewModel.SelectedWorkout = SelectedWorkout;
+
+            // show all exercises included in this workout
+            url = "ExerciseData/ListExercisesForWorkout/" + id;
+            response = client.GetAsync(url).Result;
+            IEnumerable<ExerciseDto> IncludedExercises = response.Content.ReadAsAsync<IEnumerable<ExerciseDto>>().Result;
+
+            ViewModel.IncludedExercises = IncludedExercises;
+
+            return View(ViewModel);
         }
 
         public ActionResult Error()
