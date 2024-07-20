@@ -72,7 +72,47 @@ namespace PassionProjectn01681774.Controllers
 
             ViewModel.IncludedExercises = IncludedExercises;
 
+            url = "ExerciseData/ListExercisesNotIncludedInWorkout/" + id;
+            response = client.GetAsync(url).Result;
+            IEnumerable<ExerciseDto> AvailableExercises = response.Content.ReadAsAsync<IEnumerable<ExerciseDto>>().Result;
+
+            ViewModel.AvailableExercises = AvailableExercises;
+
             return View(ViewModel);
+        }
+
+        //POST: Workout/Associate/{WorkoutId}/{ExerciseId}
+        [HttpPost]
+        public ActionResult Associate(int id, int ExerciseId)
+        {
+            // objective: communicate with our workout data api to retrieve a list of exercises not currently included in a particular exercise
+            // curl -d "" https://localhost:44384/api/WorkoutData/AssociateWorkoutWithExercise/{WorkoutId}/{ExerciseId}
+            Debug.WriteLine("Attempting to associate workout: " + id + "with exercise " + ExerciseId);
+
+            // associate workout with exercise
+            string url = "WorkoutData/AssociateWorkoutWithExercise/" + id+"/" + ExerciseId;
+            HttpContent content = new StringContent("");
+            content.Headers.ContentType.MediaType = "application/json";
+            HttpResponseMessage response = client.PostAsync(url, content).Result;
+
+            return RedirectToAction("Show/" + id);
+        }
+
+        //GET: Workout/UnAssociate/{id}?ExerciseId={ExerciseId}
+        [HttpGet]
+        public ActionResult UnAssociate(int id, int ExerciseId)
+        {
+            // objective: communicate with our workout data api to retrieve a list of exercises not currently included in a particular exercise
+            // curl -d "" https://localhost:44384/api/WorkoutData/UnAssociateWorkoutsWithExercise/{WorkoutId}/{ExerciseId}
+            Debug.WriteLine("Attempting to UnAssociate workout: " + id + "with exercise " + ExerciseId);
+
+            // UnAssociate workout with exercise
+            string url = "WorkoutData/UnAssociateWorkoutsWithExercise/" + id + "/" + ExerciseId;
+            HttpContent content = new StringContent("");
+            content.Headers.ContentType.MediaType = "application/json";
+            HttpResponseMessage response = client.PostAsync(url, content).Result;
+
+            return RedirectToAction("Show/" + id);
         }
 
         public ActionResult Error()

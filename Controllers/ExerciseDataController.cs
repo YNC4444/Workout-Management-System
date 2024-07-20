@@ -114,6 +114,39 @@ namespace PassionProjectn01681774.Controllers
         }
 
         /// <summary>
+        /// Returns all exercises related to a particular workout ID
+        /// </summary>
+        /// <returns>
+        /// HEADER: 200 (OK)
+        /// CONTENT: all exercises in the database which are not included in a particular workout
+        /// </returns>
+        /// <param name="id">workout ID</param>
+        /// <example>
+        /// GET: api/ExerciseData/ListExercisesNotIncludedInWorkout/3
+        /// </example>
+        [HttpGet]
+        [ResponseType(typeof(ExerciseDto))]
+        public IHttpActionResult ListExercisesNotIncludedInWorkout(int id)
+        {
+            // all exercises that have workouts that match with our ID
+            List<Exercise> Exercises = db.Exercises.Where(
+                e => !e.Workouts.Any(
+                    w => w.WorkoutId == id
+                )).ToList();
+            List<ExerciseDto> ExerciseDtos = new List<ExerciseDto>();
+
+            Exercises.ForEach(e => ExerciseDtos.Add(new ExerciseDto()
+            {
+                ExerciseId = e.ExerciseId,
+                ExerciseName = e.ExerciseName,
+                GroupName = e.Muscle.GroupName,
+                ExerciseDescription = e.ExerciseDescription
+            }));
+
+            return Ok(ExerciseDtos);
+        }
+
+        /// <summary>
         /// Returns all exercises in the system.
         /// </summary>
         /// <returns>

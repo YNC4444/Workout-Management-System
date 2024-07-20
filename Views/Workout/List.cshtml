@@ -4,6 +4,9 @@
 }
 
 <h2>List</h2>
+
+<a href="/Workout/New" style="font-size:0.75rem">Add a new Workout</a>
+
 @foreach (var workout in Model)
 {
     <div><a href="Show/@workout.WorkoutId">Date: @workout.WorkoutDate</a></div>

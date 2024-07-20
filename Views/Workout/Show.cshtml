@@ -14,8 +14,33 @@
 
 <div>
     <h3>Exercises Performed:</h3>
-    @foreach(var exercise in Model.IncludedExercises)
+    @foreach (var exercise in Model.IncludedExercises)
     {
-        <a href="/Exercise/Show/@exercise.ExerciseId">@exercise.ExerciseName</a>
+        <a href="/Exercise/Show/@exercise.ExerciseId">@exercise.ExerciseName</a> <a style="color:#ab2020"
+        href="/Workout/UnAssociate/@Model.SelectedWorkout.WorkoutId?ExerciseId=@exercise.ExerciseId">[x]</a><br />
     }
+
+    <div>
+        Add new exercise to @Model.SelectedWorkout.WorkoutDate
+        <form method="POST" action="/Workout/Associate/@Model.SelectedWorkout.WorkoutId">
+            <select name="ExerciseId">
+                @foreach (var exercise in Model.AvailableExercises)
+                {
+                    <option value="@exercise.ExerciseId">@exercise.ExerciseName</option>
+                }
+            </select>
+            <input type="submit" value="Include Exercise" />
+        </form>
+    </div>
+    @*<div>
+        Remove exercise from @Model.SelectedWorkout.WorkoutDate
+        <form method="POST" action="/Workout/UnAssociate/@Model.SelectedWorkout.WorkoutId"></form>
+        <select name="ExerciseId">
+            @foreach (var exercise in Model.IncludedExercises)
+            {
+                <option value="@exercise.ExerciseId">@exercise.ExerciseName</option>
+            }
+        </select>
+        <input type="submit" value="Remove Exercise" />
+    </div>*@
 </div>

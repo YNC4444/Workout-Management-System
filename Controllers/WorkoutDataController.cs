@@ -74,6 +74,80 @@ namespace PassionProjectn01681774.Controllers
         }
 
         /// <summary>
+        /// Associate a particular workout with a particular exercise
+        /// </summary>
+        /// <param name="ExerciseId">The exercise primary key</param>
+        /// <param name="WorkoutId">The workout primary key</param>
+        /// <returns>
+        /// HEADER: 200 (OK)
+        /// or
+        /// HEADER: 404 (NOT FOUND)
+        /// </returns>
+        /// <example>
+        /// POST api/WorkoutData/AssociateWorkoutWithExercise/2/2
+        /// </example>
+        [HttpPost]
+        [Route("api/WorkoutData/AssociateWorkoutWithExercise/{WorkoutId}/{ExerciseId}")]
+        public IHttpActionResult AssociateWorkoutWithExercise(int WorkoutId, int ExerciseId)
+        {
+            Workout SelectedWorkout = db.Workouts.Include(w=>w.Exercises).Where(w=>w.WorkoutId==WorkoutId).FirstOrDefault();
+            Exercise SelectedExercise = db.Exercises.Find(ExerciseId);
+
+            if (SelectedExercise==null || SelectedWorkout == null)
+            {
+                return NotFound();
+            }
+
+            Debug.WriteLine("input workout id is:" + WorkoutId);
+            Debug.WriteLine("input exercise id is:" + ExerciseId);
+
+            Debug.WriteLine("The sekected workout is: "+SelectedWorkout);
+            Debug.WriteLine("The selected exercise is: "+SelectedExercise);
+
+            SelectedWorkout.Exercises.Add(SelectedExercise);
+            db.SaveChanges();
+
+            return Ok();
+        }
+
+        /// <summary>
+        /// Associate a particular workout with a particular exercise
+        /// </summary>
+        /// <param name="ExerciseId">The exercise primary key</param>
+        /// <param name="WorkoutId">The workout primary key</param>
+        /// <returns>
+        /// HEADER: 200 (OK)
+        /// or
+        /// HEADER: 404 (NOT FOUND)
+        /// </returns>
+        /// <example>
+        /// POST api/WorkoutData/UnAssociateWorkoutsWithExercise/2/2
+        /// </example>
+        [HttpPost]
+        [Route("api/WorkoutData/UnAssociateWorkoutsWithExercise/{WorkoutId}/{ExerciseId}")]
+        public IHttpActionResult UnAssociateWorkoutsWithExercise(int WorkoutId, int ExerciseId)
+        {
+            Workout SelectedWorkout = db.Workouts.Include(w => w.Exercises).Where(w => w.WorkoutId == WorkoutId).FirstOrDefault();
+            Exercise SelectedExercise = db.Exercises.Find(ExerciseId);
+
+            if (SelectedExercise == null || SelectedWorkout == null)
+            {
+                return NotFound();
+            }
+
+            Debug.WriteLine("input workout id is:" + WorkoutId);
+            Debug.WriteLine("input exercise id is:" + ExerciseId);
+
+            Debug.WriteLine("The sekected workout is: " + SelectedWorkout);
+            Debug.WriteLine("The selected exercise is: " + SelectedExercise);
+
+            SelectedWorkout.Exercises.Remove(SelectedExercise);
+            db.SaveChanges();
+
+            return Ok();
+        }
+
+        /// <summary>
         /// Returns all workout in the system.
         /// </summary>
         /// <returns>
