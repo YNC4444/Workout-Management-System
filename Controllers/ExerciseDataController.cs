@@ -12,6 +12,8 @@ using System.Web.Http.Description;
 using PassionProjectn01681774.Migrations;
 using PassionProjectn01681774.Models;
 
+// using Web API 2 controller with actions, using entity framework
+
 namespace PassionProjectn01681774.Controllers
 {
     public class ExerciseDataController : ApiController

@@ -1,17 +1,17 @@
-﻿@model PassionProjectn01681774.Models.ViewModels.UpdateWorkout
+﻿@model PassionProjectn01681774.Models.WorkoutDto
 @{
     ViewBag.Title = "Edit";
 }
 
 <h2>Update Workout</h2>
 
-<form method="POST" action="/Workout/Update/@Model.Workout.WorkoutId">
-    <input type="text" style="display:none;" name="WorkoutId" value="@Model.Workout.WorkoutId" />
+<form method="POST" action="/Workout/Update/@Model.WorkoutId">
+    <input type="text" style="display:none;" name="WorkoutId" value="@Model.WorkoutId" />
     <div>
         <label>Workout Date</label>
-        <input type="text" name="WorkoutDate" value="@Model.Workout.WorkoutDate" />
+        <input type="text" name="WorkoutDate" value="@Model.WorkoutDate" />
     </div>
-    <div>
+    @*<div>
         <label>Exercise:</label>
         <select name="ExerciseId">
             @foreach (var exercise in Model.ExerciseOptions)
@@ -19,7 +19,7 @@
                 <option value="@exercise.ExerciseId">@exercise.ExerciseName</option>
             }
         </select>
-    </div>
+    </div>*@
     <div>
         <input type="submit" value="Update" />
     </div>

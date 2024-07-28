@@ -165,22 +165,12 @@ namespace PassionProjectn01681774.Controllers
         // GET: Workout/Edit/5
         public ActionResult Edit(int id)
         {
-            UpdateWorkout ViewModel = new UpdateWorkout();
-            
             // the existing workout information
             string url = "WorkoutData/FindWorkout/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
             WorkoutDto Workout = response.Content.ReadAsAsync<WorkoutDto>().Result;
-            ViewModel.Workout = Workout;
 
-            // all exercises to choose from when updating this workout
-            url = "ExerciseData/ListExercises";
-            response = client.GetAsync(url).Result;
-            IEnumerable<ExerciseDto> ExercisdOptions = response.Content.ReadAsAsync<IEnumerable<ExerciseDto>>().Result;
-
-            ViewModel.ExerciseOptions = ExercisdOptions;
-
-            return View(ViewModel);
+            return View(Workout);
         }
 
         // POST: Workout/Update/5
